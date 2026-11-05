@@ -1,0 +1,34 @@
+]633;E;echo "### Fecha";d0583bee-4234-401f-b47a-4d828a22d9b0]633;C### Fecha
+mié 04 nov 2026 10:51:50 -05
+
+### CPU
+CPU(s):                                  24
+Model name:                              Intel(R) Core(TM) Ultra 9 275HX
+Thread(s) per core:                      1
+Core(s) per socket:                      24
+Socket(s):                               1
+CPU(s) scaling MHz:                      47%
+CPU max MHz:                             5400,0000
+CPU min MHz:                             800,0000
+
+### RAM
+               total        used        free      shared  buff/cache   available
+Mem:            30Gi       6,2Gi        20Gi       928Mi       5,2Gi        24Gi
+Swap:          511Mi          0B       511Mi
+
+### GPU
+name, memory.total [MiB], driver_version, power.limit [W]
+NVIDIA GeForce RTX 5080 Laptop GPU, 16303 MiB, 595.99.02, [N/A]
+
+### Sistema
+Description:	Ubuntu 24.04.4 LTS
+6.17.0-14-generic
+
+### Perfil de energia
+performance
+
+### Herramientas
+g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+Cuda compilation tools, release 13.2, V13.2.86
+Build cuda_13.2.r13.2/compiler.37953736_0
+Python 3.12.3 | Pillow 10.2.0 | matplotlib 3.6.3
