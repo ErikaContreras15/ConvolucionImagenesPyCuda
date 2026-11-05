@@ -1,0 +1,60 @@
+--- media 3x3 4000 256h ---
+Pixeles: 16000000
+Error absoluto maximo: 4.578e-05 (posicion 4893)
+Error absoluto medio:  2.221e-06
+Tolerancia: 1.0e-02 -> OK (0 pixeles fuera)
+--- nitidez 3x3 4000 256h ---
+Pixeles: 16000000
+Error absoluto maximo: 0.000e+00 (posicion 0)
+Error absoluto medio:  0.000e+00
+Tolerancia: 1.0e-02 -> OK (0 pixeles fuera)
+--- laplaciano 3x3 4000 256h ---
+Pixeles: 16000000
+Error absoluto maximo: 0.000e+00 (posicion 0)
+Error absoluto medio:  0.000e+00
+Tolerancia: 1.0e-02 -> OK (0 pixeles fuera)
+--- media 9x9 2000 256h ---
+Pixeles: 4000000
+Error absoluto maximo: 1.678e-04 (posicion 902508)
+Error absoluto medio:  3.620e-06
+Tolerancia: 1.0e-02 -> OK (0 pixeles fuera)
+--- media 9x9 4000 256h ---
+Pixeles: 16000000
+Error absoluto maximo: 1.678e-04 (posicion 2756935)
+Error absoluto medio:  3.511e-06
+Tolerancia: 1.0e-02 -> OK (0 pixeles fuera)
+--- media 9x9 6000 256h ---
+Pixeles: 36000000
+Error absoluto maximo: 1.678e-04 (posicion 5671614)
+Error absoluto medio:  3.417e-06
+Tolerancia: 1.0e-02 -> OK (0 pixeles fuera)
+--- media 21x21 4000 256h ---
+Pixeles: 16000000
+Error absoluto maximo: 1.678e-04 (posicion 2285425)
+Error absoluto medio:  3.827e-06
+Tolerancia: 1.0e-02 -> OK (0 pixeles fuera)
+--- media 9x9 4000 128h ---
+Pixeles: 16000000
+Error absoluto maximo: 1.678e-04 (posicion 2756935)
+Error absoluto medio:  3.511e-06
+Tolerancia: 1.0e-02 -> OK (0 pixeles fuera)
+--- media 9x9 4000 512h ---
+Pixeles: 16000000
+Error absoluto maximo: 1.678e-04 (posicion 2756935)
+Error absoluto medio:  3.511e-06
+Tolerancia: 1.0e-02 -> OK (0 pixeles fuera)
+--- prueba no multiplo 1003x997 media 9x9 128h ---
+Pixeles: 999991
+Error absoluto maximo: 1.678e-04 (posicion 452861)
+Error absoluto medio:  4.700e-06
+Tolerancia: 1.0e-02 -> OK (0 pixeles fuera)
+--- prueba no multiplo 1003x997 media 9x9 256h ---
+Pixeles: 999991
+Error absoluto maximo: 1.678e-04 (posicion 452861)
+Error absoluto medio:  4.700e-06
+Tolerancia: 1.0e-02 -> OK (0 pixeles fuera)
+--- prueba no multiplo 1003x997 media 9x9 512h ---
+Pixeles: 999991
+Error absoluto maximo: 1.678e-04 (posicion 452861)
+Error absoluto medio:  4.700e-06
+Tolerancia: 1.0e-02 -> OK (0 pixeles fuera)
