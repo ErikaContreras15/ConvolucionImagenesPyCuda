@@ -68,7 +68,7 @@ Además: driver NVIDIA y CUDA Toolkit (probado con CUDA 13.2; la RTX 5080 requie
 
 La imagen original no se incluye en el repositorio por su tamaño.
 
-- **Imagen original:** _[pegar aquí el enlace de descarga]_ — 8192×5120 px, descargada en "tamaño original".
+- **Imagen original:** _[https://unsplash.com/es/fotos/montanas-nevadas-sobre-green-valley-J71r_nZTv1U_ — 8192×5120 px, descargada en "tamaño original".
 - Guardarla como `imagenOriginal/montana.jpg`.
 
 Preparación (escala de grises → recorte cuadrado centrado de 5120×5120 → redimensionamiento Lanczos):
