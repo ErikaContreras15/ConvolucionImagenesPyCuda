@@ -248,6 +248,4 @@ CPU y CUDA se midieron en la misma sesión (4 de noviembre de 2026). Los resulta
 
 ---
 
-## 8. Versión evaluada
 
-- **Commit de entrega:** _[pegar el hash de `git log -1`]_
