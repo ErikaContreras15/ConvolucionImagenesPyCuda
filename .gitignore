@@ -1,0 +1,13 @@
+# Imágenes y salidas pesadas (se regeneran con los scripts)
+*.pgm
+*.f32
+imagenOriginal/
+
+# Ejecutables
+CPU/conv_cpu
+CUDA/conv_cuda
+CUDA/comparar
+
+# Pruebas temporales
+prueba.csv
+CUDA/prueba.csv

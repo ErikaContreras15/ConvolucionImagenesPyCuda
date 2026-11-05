@@ -1,0 +1,10 @@
+]633;E;lscpu;95b2e91a-1d0c-4525-b77d-87c41a8fd817]633;CCPU(s):                                  24
+Model name:                              Intel(R) Core(TM) Ultra 9 275HX
+Thread(s) per core:                      1
+Core(s) per socket:                      24
+CPU(s) scaling MHz:                      36%
+               total        used        free      shared  buff/cache   available
+Mem:            30Gi       7,4Gi        19Gi       1,2Gi       5,5Gi        23Gi
+Swap:          511Mi          0B       511Mi
+g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+6.17.0-14-generic

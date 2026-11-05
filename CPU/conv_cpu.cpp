@@ -1,19 +1,10 @@
-// conv_cpu.cpp — convolución secuencial (referencia de corrección y de tiempo)
-//
-// Uso:
-//   ./conv_cpu --test
-//   ./conv_cpu <entrada.pgm> <media|nitidez|laplaciano> <k> <reps> <prefijo_salida> <resultados.csv>
-//
-// Ejemplo:
-//   ./conv_cpu img/img_4000.pgm media 9 5 out/cpu_media9_4000 resultados.csv
-//   -> out/cpu_media9_4000.pgm (visualización) y out/cpu_media9_4000.f32 (valores crudos)
+
 #include "common.h"
 #include <chrono>
 #include <cstdio>
 #include <iostream>
 
-// Un "píxel de salida" por iteración de los dos bucles externos:
-// es exactamente el trabajo que hará cada hilo en la versión CUDA.
+// Un "píxel de salida" por iteración de los dos bucles externos
 void convolucionCPU(const float* in, float* out, int ancho, int alto,
                     const float* m, int k) {
     const int r = k / 2;
@@ -34,7 +25,7 @@ void convolucionCPU(const float* in, float* out, int ancho, int alto,
     }
 }
 
-// Prueba manual con la matriz 5x5 de la Figura 1 y el laplaciano.
+// Prueba manual con la matriz 5x5 y  el laplaciano
 // Valores calculados a mano:
 //   (0,0): 0+0 -4*35 +40 +40       = -60
 //   (1,1): 40+40 -4*40 +42 +46     =   8

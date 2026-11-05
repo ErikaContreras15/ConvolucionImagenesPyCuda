@@ -1,20 +1,14 @@
 """Prepara las tres resoluciones a partir de UNA imagen original.
 
-Pasos (documentar en el informe):
   1. Convertir a escala de grises (8 bits).
   2. Recorte cuadrado centrado del lado menor.
   3. Redimensionar a 2000, 4000 y 6000 px con filtro LANCZOS.
-Se recomienda una imagen original de al menos 6000 px de lado menor
-para no ampliar (si se amplía, indicarlo en el informe).
-
-Uso:  python preparar_imagenes.py original.jpg img/
-Requiere: pip install pillow
 """
 import sys
 from pathlib import Path
 from PIL import Image
 
-Image.MAX_IMAGE_PIXELS = None  # permitir imágenes muy grandes
+Image.MAX_IMAGE_PIXELS = None 
 
 def main(origen: str, carpeta: str) -> None:
     salida = Path(carpeta)
