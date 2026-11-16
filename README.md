@@ -5,7 +5,7 @@
 **Integrantes:** Erika Contreras -  Jorge Pizarro
 
 > **Práctica 02 (Python secuencial y PyCUDA):** ver [Practica02/README.md](Practica02/README.md).
-> La práctica 01 (C/C++ y CUDA C) se conserva en `CPU/` y `CUDA/`; versión evaluada: commit `a103571`.
+> La práctica 01 (C/C++ y CUDA C) `CPU/` y `CUDA/`
 >
 > 
 # Práctica 01 · Convolución de imágenes de alta resolución mediante CUDA C
