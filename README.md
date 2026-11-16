@@ -4,7 +4,7 @@
 
 **Integrantes:** Erika Contreras -  Jorge Pizarro
 
-> **Práctica 02 (Python secuencial y PyCUDA):** ver [Practica02/README.md](Practica02/README.md).
+> **Práctica 02 (Python secuencial y PyCUDA):** ver [Practica02/README02.md](Practica02/README02.md).
 > La práctica 01 (C/C++ y CUDA C) `CPU/` y `CUDA/`
 >
 > 
