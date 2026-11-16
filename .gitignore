@@ -11,3 +11,8 @@ CUDA/comparar
 # Pruebas temporales
 prueba.csv
 CUDA/prueba.csv
+
+# Practica 02
+Practica02/salidas/
+Practica02/bin/
+__pycache__/
