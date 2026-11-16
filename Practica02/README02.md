@@ -4,7 +4,7 @@ Universidad Politécnica Salesiana, sede Cuenca · Computación Paralela
 
 Docente: Ing. Gabriel León
 
-Autores: Contreras Zhagui Erika Natalia, Pizarro Loja Jorge Paul · 
+Autores: Erika Contreras, Jorge Pizarro
 
 
 Se compara la misma convolución 2D (filtros de media k×k, nitidez 3×3 y laplaciano 3×3) en cuatro versiones:
@@ -16,11 +16,6 @@ Se compara la misma convolución 2D (filtros de media k×k, nitidez 3×3 y lapla
 | Python secuencial | `Python/conv_python.py` | 1 núcleo de CPU, Python puro |
 | PyCUDA | `PyCuda/conv_pycuda.py` + `PyCuda/kernel_convolucion.cu` | GPU, mismo kernel compilado con `SourceModule` |
 
-## Práctica 01 (versión anterior)
-
-El código de C/C++ y CUDA C de la práctica 01 se conserva **sin cambios** en la raíz del repositorio (`CPU/`, `CUDA/`, `common.h`).
-Versión evaluada de la práctica 01: commit **[a103571](https://github.com/ErikaContreras15/ConvolucionImagenesPyCuda/tree/a103571)**.
-El kernel `convolucionGPU` de `CUDA/conv_cuda.cu` (líneas 20–41) se copió tal cual a `PyCuda/kernel_convolucion.cu`.
 
 ## Estructura
 
