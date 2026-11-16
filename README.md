@@ -1,10 +1,14 @@
-# Práctica 01 · Convolución de imágenes de alta resolución mediante CUDA C
+
 
 **Asignatura:** Computación Paralela · Universidad Politécnica Salesiana
 
-
 **Integrantes:** Erika Contreras -  Jorge Pizarro
 
+> **Práctica 02 (Python secuencial y PyCUDA):** ver [Practica02/README.md](Practica02/README.md).
+> La práctica 01 (C/C++ y CUDA C) se conserva en `CPU/` y `CUDA/`; versión evaluada: commit `a103571`.
+>
+> 
+# Práctica 01 · Convolución de imágenes de alta resolución mediante CUDA C
 Implementación de tres filtros de convolución (media k×k, nitidez 3×3 y laplaciano 3×3) en una versión secuencial C++ (referencia) y una versión paralela CUDA C, con validación numérica CPU–GPU y medición del efecto de la resolución, el tamaño de máscara y la configuración de hilos por bloque.
 
 ---
