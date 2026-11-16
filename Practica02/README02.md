@@ -4,7 +4,7 @@ Universidad Politécnica Salesiana                      · Computación Paralela
 
 Docente: Ing. Gabriel León
 
-Autores: Erika Contreras, Jorge Pizarro
+Integrantes: Erika Contreras, Jorge Pizarro
 
 
 Se compara la misma convolución 2D (filtros de media k×k, nitidez 3×3 y laplaciano 3×3) en cuatro versiones:
