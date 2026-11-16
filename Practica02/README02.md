@@ -1,6 +1,6 @@
 # Práctica 02 · Convolución de imágenes con Python, PyCUDA y CUDA C
 
-Universidad Politécnica Salesiana, sede Cuenca · Computación Paralela
+Universidad Politécnica Salesiana                      · Computación Paralela
 
 Docente: Ing. Gabriel León
 
