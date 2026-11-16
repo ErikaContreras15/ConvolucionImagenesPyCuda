@@ -1,0 +1,245 @@
+== 0. Equipo y versiones ==
+### Fecha
+lun 16 nov 2026 09:20:06 -05
+
+### CPU
+CPU(s):                                  24
+Model name:                              Intel(R) Core(TM) Ultra 9 275HX
+Thread(s) per core:                      1
+Core(s) per socket:                      24
+CPU(s) scaling MHz:                      66%
+
+### RAM
+               total        used        free      shared  buff/cache   available
+Mem:            30Gi       6,5Gi        20Gi       956Mi       4,7Gi        24Gi
+
+### GPU
+name, memory.total [MiB], driver_version
+NVIDIA GeForce RTX 5080 Laptop GPU, 16303 MiB, 595.99.02
+
+### Sistema
+Description:	Ubuntu 24.04.4 LTS
+7.0.0-42-generic
+
+### CUDA Toolkit
+Cuda compilation tools, release 13.2, V13.2.86
+Build cuda_13.2.r13.2/compiler.37953736_0
+
+### g++
+g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+
+### Python y librerías
+Python 3.12.3
+NumPy 2.5.4
+Pillow 13.0.0
+PyCUDA 2026.1
+
+### Entorno
+venv ~/venvs/cuda: python3 -m venv ~/venvs/cuda && pip install pycuda numpy pillow matplotlib
+
+### Compilación
+g++  -O2 -std=c++17 -I.. ../CPU/conv_cpu.cpp  -o bin/conv_cpu
+nvcc -O2 -std=c++17 -arch=native -I.. ../CUDA/conv_cuda.cu -o bin/conv_cuda
+PyCUDA: SourceModule(kernel_convolucion.cu, options=['-O2'], cache_dir=False)
+
+== 1. Compilando C/C++ y CUDA C ==
+
+== 2. Prueba pequeña 5x5 (las 4 versiones) ==
+Salida laplaciano 5x5:
+   -60   -44   -37   -43  -103
+   -43     8     9    10   -57
+   -34     0    -1   -11   -53
+   -42     2     1     9   -52
+  -116   -67   -74   -82  -170
+(0,0): obtenido -60.0, esperado -60.0 -> OK
+(1,1): obtenido 8.0, esperado 8.0 -> OK
+(2,2): obtenido -1.0, esperado -1.0 -> OK
+
+Salida laplaciano 5x5 (GPU, 4 hilos/bloque):
+   -60   -44   -37   -43  -103
+   -43     8     9    10   -57
+   -34     0    -1   -11   -53
+   -42     2     1     9   -52
+  -116   -67   -74   -82  -170
+(0,0): obtenido -60.0, esperado -60.0 -> OK
+(1,1): obtenido 8.0, esperado 8.0 -> OK
+(2,2): obtenido -1.0, esperado -1.0 -> OK
+
+Salida laplaciano 5x5 (PyCUDA, 4 hilos/bloque):
+   -60   -44   -37   -43  -103
+   -43     8     9    10   -57
+   -34     0    -1   -11   -53
+   -42     2     1     9   -52
+  -116   -67   -74   -82  -170
+(0,0): obtenido -60.0, esperado -60.0 -> OK
+(1,1): obtenido 8.0, esperado 8.0 -> OK
+(2,2): obtenido -1.0, esperado -1.0 -> OK
+
+Salida laplaciano 5x5 (Python secuencial):
+   -60   -44   -37   -43  -103
+   -43     8     9    10   -57
+   -34     0    -1   -11   -53
+   -42     2     1     9   -52
+  -116   -67   -74   -82  -170
+(0,0): obtenido -60.0, esperado -60.0 -> OK
+(1,1): obtenido 8.0, esperado 8.0 -> OK
+(2,2): obtenido -1.0, esperado -1.0 -> OK
+
+== 3. Prueba de límites 1003x997 (media 9x9) ==
+CPU media k=9 1003x997 | mediana 34.53 ms (1 reps)
+CUDA media k=9 1003x997 | 128 hilos x 7813 bloques | kernel 0.077 ms | total 0.769 ms (mediana, 1 reps)
+PyCUDA media k=9 1003x997 | 128 hilos x 7813 bloques | init 191.7 ms | compilación 181.5 ms | kernel 0.079 ms | total 0.745 ms (mediana, 1 reps)
+CUDA C  1003x997 h128 | píxeles 999991 | error máx 1.678e-04 | error medio 4.700e-06 | > tol 0 | OK
+PyCUDA  1003x997 h128 | píxeles 999991 | error máx 1.678e-04 | error medio 4.700e-06 | > tol 0 | OK
+CUDA media k=9 1003x997 | 256 hilos x 3907 bloques | kernel 0.077 ms | total 0.809 ms (mediana, 1 reps)
+PyCUDA media k=9 1003x997 | 256 hilos x 3907 bloques | init 194.5 ms | compilación 179.4 ms | kernel 0.077 ms | total 0.710 ms (mediana, 1 reps)
+CUDA C  1003x997 h256 | píxeles 999991 | error máx 1.678e-04 | error medio 4.700e-06 | > tol 0 | OK
+PyCUDA  1003x997 h256 | píxeles 999991 | error máx 1.678e-04 | error medio 4.700e-06 | > tol 0 | OK
+CUDA media k=9 1003x997 | 512 hilos x 1954 bloques | kernel 0.077 ms | total 0.771 ms (mediana, 1 reps)
+PyCUDA media k=9 1003x997 | 512 hilos x 1954 bloques | init 201.8 ms | compilación 191.2 ms | kernel 0.080 ms | total 0.761 ms (mediana, 1 reps)
+CUDA C  1003x997 h512 | píxeles 999991 | error máx 1.678e-04 | error medio 4.700e-06 | > tol 0 | OK
+PyCUDA  1003x997 h512 | píxeles 999991 | error máx 1.678e-04 | error medio 4.700e-06 | > tol 0 | OK
+  repetición 1: 7.22 s
+Python media k=9 1003x997 | mediana 7216.33 ms (1 reps)
+Python  1003x997 | píxeles 999991 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+
+== 4. Experimentos en C/C++, CUDA C y PyCUDA ==
+CPU media k=3 4000x4000 | mediana 59.50 ms (5 reps)
+CUDA media k=3 4000x4000 | 256 hilos x 62500 bloques | kernel 0.341 ms | total 9.154 ms (mediana, 5 reps)
+PyCUDA media k=3 4000x4000 | 256 hilos x 62500 bloques | init 190.2 ms | compilación 181.5 ms | kernel 0.344 ms | total 10.487 ms (mediana, 5 reps)
+CUDA C  media k=3 4000² h256 | píxeles 16000000 | error máx 4.578e-05 | error medio 2.221e-06 | > tol 0 | OK
+PyCUDA  media k=3 4000² h256 | píxeles 16000000 | error máx 4.578e-05 | error medio 2.221e-06 | > tol 0 | OK
+CPU nitidez k=3 4000x4000 | mediana 59.20 ms (5 reps)
+CUDA nitidez k=3 4000x4000 | 256 hilos x 62500 bloques | kernel 0.341 ms | total 11.891 ms (mediana, 5 reps)
+PyCUDA nitidez k=3 4000x4000 | 256 hilos x 62500 bloques | init 197.1 ms | compilación 185.8 ms | kernel 0.341 ms | total 11.047 ms (mediana, 5 reps)
+CUDA C  nitidez k=3 4000² h256 | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+PyCUDA  nitidez k=3 4000² h256 | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+CPU laplaciano k=3 4000x4000 | mediana 58.42 ms (5 reps)
+CUDA laplaciano k=3 4000x4000 | 256 hilos x 62500 bloques | kernel 0.341 ms | total 9.523 ms (mediana, 5 reps)
+PyCUDA laplaciano k=3 4000x4000 | 256 hilos x 62500 bloques | init 201.2 ms | compilación 186.1 ms | kernel 0.340 ms | total 10.695 ms (mediana, 5 reps)
+CUDA C  laplaciano k=3 4000² h256 | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+PyCUDA  laplaciano k=3 4000² h256 | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+CPU media k=9 2000x2000 | mediana 138.70 ms (5 reps)
+CUDA media k=9 2000x2000 | 256 hilos x 15625 bloques | kernel 0.289 ms | total 2.396 ms (mediana, 5 reps)
+PyCUDA media k=9 2000x2000 | 256 hilos x 15625 bloques | init 204.9 ms | compilación 186.0 ms | kernel 0.290 ms | total 2.692 ms (mediana, 5 reps)
+CUDA C  media k=9 2000² h256 | píxeles 4000000 | error máx 1.678e-04 | error medio 3.620e-06 | > tol 0 | OK
+PyCUDA  media k=9 2000² h256 | píxeles 4000000 | error máx 1.678e-04 | error medio 3.620e-06 | > tol 0 | OK
+CPU media k=9 4000x4000 | mediana 552.37 ms (5 reps)
+CUDA media k=9 4000x4000 | 256 hilos x 62500 bloques | kernel 1.112 ms | total 9.697 ms (mediana, 5 reps)
+PyCUDA media k=9 4000x4000 | 256 hilos x 62500 bloques | init 195.1 ms | compilación 183.3 ms | kernel 1.112 ms | total 11.559 ms (mediana, 5 reps)
+CUDA C  media k=9 4000² h256 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.511e-06 | > tol 0 | OK
+PyCUDA  media k=9 4000² h256 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.511e-06 | > tol 0 | OK
+CPU media k=9 6000x6000 | mediana 1250.43 ms (5 reps)
+CUDA media k=9 6000x6000 | 256 hilos x 140625 bloques | kernel 2.479 ms | total 21.950 ms (mediana, 5 reps)
+PyCUDA media k=9 6000x6000 | 256 hilos x 140625 bloques | init 183.2 ms | compilación 184.6 ms | kernel 2.564 ms | total 26.132 ms (mediana, 5 reps)
+CUDA C  media k=9 6000² h256 | píxeles 36000000 | error máx 1.678e-04 | error medio 3.417e-06 | > tol 0 | OK
+PyCUDA  media k=9 6000² h256 | píxeles 36000000 | error máx 1.678e-04 | error medio 3.417e-06 | > tol 0 | OK
+CPU media k=21 4000x4000 | mediana 2672.26 ms (5 reps)
+CUDA media k=21 4000x4000 | 256 hilos x 62500 bloques | kernel 6.990 ms | total 15.669 ms (mediana, 5 reps)
+PyCUDA media k=21 4000x4000 | 256 hilos x 62500 bloques | init 176.3 ms | compilación 194.9 ms | kernel 7.220 ms | total 18.856 ms (mediana, 5 reps)
+CUDA C  media k=21 4000² h256 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.827e-06 | > tol 0 | OK
+PyCUDA  media k=21 4000² h256 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.827e-06 | > tol 0 | OK
+CUDA media k=9 4000x4000 | 128 hilos x 125000 bloques | kernel 1.195 ms | total 10.800 ms (mediana, 5 reps)
+PyCUDA media k=9 4000x4000 | 128 hilos x 125000 bloques | init 187.3 ms | compilación 188.5 ms | kernel 1.162 ms | total 11.373 ms (mediana, 5 reps)
+CUDA C  media k=9 4000² h128 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.511e-06 | > tol 0 | OK
+PyCUDA  media k=9 4000² h128 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.511e-06 | > tol 0 | OK
+CUDA media k=9 4000x4000 | 512 hilos x 31250 bloques | kernel 1.124 ms | total 11.920 ms (mediana, 5 reps)
+PyCUDA media k=9 4000x4000 | 512 hilos x 31250 bloques | init 195.4 ms | compilación 187.8 ms | kernel 1.123 ms | total 11.621 ms (mediana, 5 reps)
+CUDA C  media k=9 4000² h512 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.511e-06 | > tol 0 | OK
+PyCUDA  media k=9 4000² h512 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.511e-06 | > tol 0 | OK
+
+== 5. Python secuencial (lo más lento, al final) ==
+[09:21:08] Python media k=3 4000x4000
+  repetición 1: 15.93 s
+  repetición 2: 16.01 s
+  repetición 3: 16.18 s
+  repetición 4: 16.24 s
+  repetición 5: 16.16 s
+Python media k=3 4000x4000 | mediana 16159.74 ms (5 reps)
+Python  media k=3 4000² | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+[09:22:30] Python nitidez k=3 4000x4000
+  repetición 1: 15.95 s
+  repetición 2: 16.23 s
+  repetición 3: 16.12 s
+  repetición 4: 16.32 s
+  repetición 5: 16.31 s
+Python nitidez k=3 4000x4000 | mediana 16231.26 ms (5 reps)
+Python  nitidez k=3 4000² | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+[09:23:52] Python laplaciano k=3 4000x4000
+  repetición 1: 15.89 s
+  repetición 2: 16.08 s
+  repetición 3: 16.16 s
+  repetición 4: 16.17 s
+  repetición 5: 16.08 s
+Python laplaciano k=3 4000x4000 | mediana 16077.04 ms (5 reps)
+Python  laplaciano k=3 4000² | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+[09:25:13] Python media k=9 2000x2000
+  repetición 1: 29.36 s
+  repetición 2: 29.63 s
+  repetición 3: 29.72 s
+  repetición 4: 29.72 s
+  repetición 5: 29.72 s
+Python media k=9 2000x2000 | mediana 29716.43 ms (5 reps)
+Python  media k=9 2000² | píxeles 4000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+[09:27:42] Python media k=9 4000x4000
+  repetición 1: 119.61 s
+  repetición 2: 119.48 s
+  repetición 3: 119.69 s
+  repetición 4: 119.42 s
+  repetición 5: 118.90 s
+Python media k=9 4000x4000 | mediana 119475.82 ms (5 reps)
+Python  media k=9 4000² | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+[09:37:40] Python media k=9 6000x6000
+  repetición 1: 272.70 s
+  repetición 2: 272.91 s
+  repetición 3: 272.45 s
+  repetición 4: 271.94 s
+  repetición 5: 273.50 s
+Python media k=9 6000x6000 | mediana 272700.76 ms (5 reps)
+Python  media k=9 6000² | píxeles 36000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+[10:00:26] Python media k=21 4000x4000
+  repetición 1: 718.01 s
+  repetición 2: 714.28 s
+  repetición 3: 721.88 s
+  repetición 4: 705.04 s
+  repetición 5: 702.03 s
+Python media k=21 4000x4000 | mediana 714281.62 ms (5 reps)
+Python  media k=21 4000² | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+
+== 6. Validación (referencia: C/C++ secuencial, tolerancia 1e-2) ==
+--- Prueba de límites 1003x997, media 9x9 ---
+CUDA C  1003x997 h128 | píxeles 999991 | error máx 1.678e-04 | error medio 4.700e-06 | > tol 0 | OK
+PyCUDA  1003x997 h128 | píxeles 999991 | error máx 1.678e-04 | error medio 4.700e-06 | > tol 0 | OK
+CUDA C  1003x997 h256 | píxeles 999991 | error máx 1.678e-04 | error medio 4.700e-06 | > tol 0 | OK
+PyCUDA  1003x997 h256 | píxeles 999991 | error máx 1.678e-04 | error medio 4.700e-06 | > tol 0 | OK
+CUDA C  1003x997 h512 | píxeles 999991 | error máx 1.678e-04 | error medio 4.700e-06 | > tol 0 | OK
+PyCUDA  1003x997 h512 | píxeles 999991 | error máx 1.678e-04 | error medio 4.700e-06 | > tol 0 | OK
+Python  1003x997 | píxeles 999991 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+--- Experimentos ---
+CUDA C  media k=3 4000² h256 | píxeles 16000000 | error máx 4.578e-05 | error medio 2.221e-06 | > tol 0 | OK
+PyCUDA  media k=3 4000² h256 | píxeles 16000000 | error máx 4.578e-05 | error medio 2.221e-06 | > tol 0 | OK
+CUDA C  nitidez k=3 4000² h256 | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+PyCUDA  nitidez k=3 4000² h256 | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+CUDA C  laplaciano k=3 4000² h256 | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+PyCUDA  laplaciano k=3 4000² h256 | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+CUDA C  media k=9 2000² h256 | píxeles 4000000 | error máx 1.678e-04 | error medio 3.620e-06 | > tol 0 | OK
+PyCUDA  media k=9 2000² h256 | píxeles 4000000 | error máx 1.678e-04 | error medio 3.620e-06 | > tol 0 | OK
+CUDA C  media k=9 4000² h256 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.511e-06 | > tol 0 | OK
+PyCUDA  media k=9 4000² h256 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.511e-06 | > tol 0 | OK
+CUDA C  media k=9 6000² h256 | píxeles 36000000 | error máx 1.678e-04 | error medio 3.417e-06 | > tol 0 | OK
+PyCUDA  media k=9 6000² h256 | píxeles 36000000 | error máx 1.678e-04 | error medio 3.417e-06 | > tol 0 | OK
+CUDA C  media k=21 4000² h256 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.827e-06 | > tol 0 | OK
+PyCUDA  media k=21 4000² h256 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.827e-06 | > tol 0 | OK
+CUDA C  media k=9 4000² h128 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.511e-06 | > tol 0 | OK
+PyCUDA  media k=9 4000² h128 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.511e-06 | > tol 0 | OK
+CUDA C  media k=9 4000² h512 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.511e-06 | > tol 0 | OK
+PyCUDA  media k=9 4000² h512 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.511e-06 | > tol 0 | OK
+Python  media k=3 4000² | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Python  nitidez k=3 4000² | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Python  laplaciano k=3 4000² | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Python  media k=9 2000² | píxeles 4000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Python  media k=9 4000² | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Python  media k=9 6000² | píxeles 36000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Python  media k=21 4000² | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+
+Listo: [11:05:19] CSV en resultados/, imágenes en salidas/, equipo_p02.txt

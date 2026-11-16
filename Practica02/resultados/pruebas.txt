@@ -1,0 +1,39 @@
+Salida laplaciano 5x5:
+   -60   -44   -37   -43  -103
+   -43     8     9    10   -57
+   -34     0    -1   -11   -53
+   -42     2     1     9   -52
+  -116   -67   -74   -82  -170
+(0,0): obtenido -60.0, esperado -60.0 -> OK
+(1,1): obtenido 8.0, esperado 8.0 -> OK
+(2,2): obtenido -1.0, esperado -1.0 -> OK
+
+Salida laplaciano 5x5 (GPU, 4 hilos/bloque):
+   -60   -44   -37   -43  -103
+   -43     8     9    10   -57
+   -34     0    -1   -11   -53
+   -42     2     1     9   -52
+  -116   -67   -74   -82  -170
+(0,0): obtenido -60.0, esperado -60.0 -> OK
+(1,1): obtenido 8.0, esperado 8.0 -> OK
+(2,2): obtenido -1.0, esperado -1.0 -> OK
+
+Salida laplaciano 5x5 (PyCUDA, 4 hilos/bloque):
+   -60   -44   -37   -43  -103
+   -43     8     9    10   -57
+   -34     0    -1   -11   -53
+   -42     2     1     9   -52
+  -116   -67   -74   -82  -170
+(0,0): obtenido -60.0, esperado -60.0 -> OK
+(1,1): obtenido 8.0, esperado 8.0 -> OK
+(2,2): obtenido -1.0, esperado -1.0 -> OK
+
+Salida laplaciano 5x5 (Python secuencial):
+   -60   -44   -37   -43  -103
+   -43     8     9    10   -57
+   -34     0    -1   -11   -53
+   -42     2     1     9   -52
+  -116   -67   -74   -82  -170
+(0,0): obtenido -60.0, esperado -60.0 -> OK
+(1,1): obtenido 8.0, esperado 8.0 -> OK
+(2,2): obtenido -1.0, esperado -1.0 -> OK

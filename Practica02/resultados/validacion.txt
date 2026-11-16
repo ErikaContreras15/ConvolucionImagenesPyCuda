@@ -1,0 +1,34 @@
+--- Prueba de límites 1003x997, media 9x9 ---
+CUDA C  1003x997 h128 | píxeles 999991 | error máx 1.678e-04 | error medio 4.700e-06 | > tol 0 | OK
+PyCUDA  1003x997 h128 | píxeles 999991 | error máx 1.678e-04 | error medio 4.700e-06 | > tol 0 | OK
+CUDA C  1003x997 h256 | píxeles 999991 | error máx 1.678e-04 | error medio 4.700e-06 | > tol 0 | OK
+PyCUDA  1003x997 h256 | píxeles 999991 | error máx 1.678e-04 | error medio 4.700e-06 | > tol 0 | OK
+CUDA C  1003x997 h512 | píxeles 999991 | error máx 1.678e-04 | error medio 4.700e-06 | > tol 0 | OK
+PyCUDA  1003x997 h512 | píxeles 999991 | error máx 1.678e-04 | error medio 4.700e-06 | > tol 0 | OK
+Python  1003x997 | píxeles 999991 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+--- Experimentos ---
+CUDA C  media k=3 4000² h256 | píxeles 16000000 | error máx 4.578e-05 | error medio 2.221e-06 | > tol 0 | OK
+PyCUDA  media k=3 4000² h256 | píxeles 16000000 | error máx 4.578e-05 | error medio 2.221e-06 | > tol 0 | OK
+CUDA C  nitidez k=3 4000² h256 | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+PyCUDA  nitidez k=3 4000² h256 | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+CUDA C  laplaciano k=3 4000² h256 | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+PyCUDA  laplaciano k=3 4000² h256 | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+CUDA C  media k=9 2000² h256 | píxeles 4000000 | error máx 1.678e-04 | error medio 3.620e-06 | > tol 0 | OK
+PyCUDA  media k=9 2000² h256 | píxeles 4000000 | error máx 1.678e-04 | error medio 3.620e-06 | > tol 0 | OK
+CUDA C  media k=9 4000² h256 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.511e-06 | > tol 0 | OK
+PyCUDA  media k=9 4000² h256 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.511e-06 | > tol 0 | OK
+CUDA C  media k=9 6000² h256 | píxeles 36000000 | error máx 1.678e-04 | error medio 3.417e-06 | > tol 0 | OK
+PyCUDA  media k=9 6000² h256 | píxeles 36000000 | error máx 1.678e-04 | error medio 3.417e-06 | > tol 0 | OK
+CUDA C  media k=21 4000² h256 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.827e-06 | > tol 0 | OK
+PyCUDA  media k=21 4000² h256 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.827e-06 | > tol 0 | OK
+CUDA C  media k=9 4000² h128 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.511e-06 | > tol 0 | OK
+PyCUDA  media k=9 4000² h128 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.511e-06 | > tol 0 | OK
+CUDA C  media k=9 4000² h512 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.511e-06 | > tol 0 | OK
+PyCUDA  media k=9 4000² h512 | píxeles 16000000 | error máx 1.678e-04 | error medio 3.511e-06 | > tol 0 | OK
+Python  media k=3 4000² | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Python  nitidez k=3 4000² | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Python  laplaciano k=3 4000² | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Python  media k=9 2000² | píxeles 4000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Python  media k=9 4000² | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Python  media k=9 6000² | píxeles 36000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Python  media k=21 4000² | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK

@@ -1,0 +1,13 @@
+implementacion,filtro,ancho,alto,k,hilos_bloque,bloques,repeticion,fase,tiempo_ms
+cuda,media,1003,997,9,128,7813,1,h2d,0.33696
+cuda,media,1003,997,9,128,7813,1,kernel,0.077184
+cuda,media,1003,997,9,128,7813,1,d2h,0.354432
+cuda,media,1003,997,9,128,7813,1,total,0.768576
+cuda,media,1003,997,9,256,3907,1,h2d,0.37872
+cuda,media,1003,997,9,256,3907,1,kernel,0.076896
+cuda,media,1003,997,9,256,3907,1,d2h,0.353216
+cuda,media,1003,997,9,256,3907,1,total,0.808832
+cuda,media,1003,997,9,512,1954,1,h2d,0.339136
+cuda,media,1003,997,9,512,1954,1,kernel,0.077408
+cuda,media,1003,997,9,512,1954,1,d2h,0.354112
+cuda,media,1003,997,9,512,1954,1,total,0.770656
