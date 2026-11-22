@@ -1,18 +1,26 @@
 # Imágenes y salidas pesadas (se regeneran con los scripts)
 *.pgm
+*.ppm
 *.f32
 imagenOriginal/
 
-# Ejecutables
-CPU/conv_cpu
-CUDA/conv_cuda
-CUDA/comparar
+# Ejecutables (P01)
+Practica01/CPU/conv_cpu
+Practica01/CUDA/conv_cuda
+Practica01/CUDA/comparar
 
 # Pruebas temporales
 prueba.csv
-CUDA/prueba.csv
+Practica01/CUDA/prueba.csv
 
 # Practica 02
 Practica02/salidas/
 Practica02/bin/
 __pycache__/
+
+# Practica 03
+Practica03/imagenes_color/
+Practica03/salidas/
+Practica03/evidencia/*_2000.png
+Practica01/FiltrosAplicados/
+Practica01/CUDA/FiltrosAplicados/
