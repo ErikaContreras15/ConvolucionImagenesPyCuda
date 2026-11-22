@@ -11,7 +11,10 @@
 #   4. Concurrencia (media 9x9, 4000; 1 y 2 clientes; 5 rondas) - servicio    -> resultados/exp4_concurrencia.csv
 #
 # Cada configuración: 1 calentamiento (repetición 0, registrado aparte) + 5 repeticiones.
-
+#
+# Uso (desde Practica03, con el venv activado, laptop al cargador y en modo rendimiento,
+#      SIN otro servicio usando el puerto 5000):
+#   bash ejecutar_p03.sh 2>&1 | tee resultados/log_p03.txt
 set -uo pipefail
 
 REPS=5
@@ -47,7 +50,13 @@ echo "== 0. Equipo y versiones =="
     nvcc --version | tail -2
     python3 -c "import sys,numpy,PIL,pycuda; print('Python',sys.version.split()[0]); print('NumPy',numpy.__version__); print('Pillow',PIL.__version__); print('PyCUDA',pycuda.VERSION_TEXT)"
     echo; echo "### Código"
-    echo "Commit: $(git -C "$RAIZ" rev-parse --short HEAD 2>/dev/null) $(git -C "$RAIZ" status --porcelain | grep -q . && echo '(con cambios sin commit)')"
+    # Código medido = el commit actual. Se ignoran resultados/ y graficas/ (este script los regenera)
+    if git -C "$RAIZ" diff --quiet HEAD -- . ':(exclude)Practica03/resultados' ':(exclude)Practica03/graficas'; then
+        echo "Commit: $(git -C "$RAIZ" rev-parse --short HEAD) (código sin cambios respecto al commit)"
+    else
+        echo "Commit: $(git -C "$RAIZ" rev-parse --short HEAD) (AVISO: hay cambios de código sin commit)"
+        git -C "$RAIZ" diff --stat HEAD -- . ':(exclude)Practica03/resultados' ':(exclude)Practica03/graficas'
+    fi
     echo "Commit de origen de la P02: 822f7b2"
     echo; echo "### Servicio"
     echo "gunicorn --workers 1 --threads 8 --timeout 300 --bind 0.0.0.0:5000 app:app (COLA_MAX=4)"
