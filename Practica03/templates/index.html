@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Convolución con PyCUDA · Práctica 03</title>
+<style>
+  :root { --tinta:#1d1d1b; --suave:#6b6a64; --borde:#e2e0d8; --fondo:#f7f6f2; --acento:#6250d6; --error:#c0392b; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--tinta); background:var(--fondo); }
+  header { padding:20px 28px; border-bottom:1px solid var(--borde); background:#fff; }
+  header h1 { margin:0; font-size:20px; }
+  header p { margin:4px 0 0; color:var(--suave); font-size:14px; }
+  main { max-width:1200px; margin:0 auto; padding:24px 28px; }
+  form { display:flex; flex-wrap:wrap; gap:14px; align-items:end; background:#fff; border:1px solid var(--borde);
+         border-radius:10px; padding:16px; }
+  label { display:flex; flex-direction:column; gap:6px; font-size:13px; color:var(--suave); }
+  select, input[type=file] { font-size:14px; padding:7px; border:1px solid var(--borde); border-radius:6px; background:#fff; }
+  button { font-size:15px; padding:9px 20px; border:0; border-radius:6px; background:var(--acento); color:#fff; cursor:pointer; }
+  button:disabled { opacity:.5; cursor:progress; }
+  .nota { font-size:12px; color:var(--suave); margin:8px 2px 0; }
+  #mensaje { margin:16px 0 0; padding:10px 14px; border-radius:6px; display:none; font-size:14px; }
+  #mensaje.error { display:block; background:#fdecea; color:var(--error); }
+  #mensaje.info  { display:block; background:#eeebfb; color:#3b2fa0; }
+  .imagenes { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:20px; }
+  figure { margin:0; background:#fff; border:1px solid var(--borde); border-radius:10px; padding:12px; }
+  figure img { width:100%; height:auto; display:block; background:#eee; min-height:120px; }
+  figcaption { font-size:13px; color:var(--suave); margin-top:8px; display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+  figcaption a { color:var(--acento); }
+  table { border-collapse:collapse; width:100%; margin-top:20px; background:#fff; border:1px solid var(--borde); font-size:14px; }
+  th, td { text-align:left; padding:7px 12px; border-bottom:1px solid var(--borde); }
+  td.num { text-align:right; font-variant-numeric: tabular-nums; }
+  tr.grupo td { background:#f1f0eb; font-weight:600; }
+  #detalle { display:none; }
+  @media (max-width: 760px) { .imagenes { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Convolución de imágenes en GPU</h1>
+  <p>Navegador → servicio web Python → PyCUDA → GPU → resultado → navegador · <span id="estado-gpu">consultando GPU…</span></p>
+</header>
+<main>
+  <form id="formulario">
+    <label>Imagen
+      <input type="file" id="imagen" name="imagen" accept=".png,.jpg,.jpeg,.ppm,.pgm,.bmp,.tif,.tiff" required>
+    </label>
+    <label>Filtro
+      <select id="filtro" name="filtro"></select>
+    </label>
+    <label>Tamaño de máscara
+      <select id="k" name="k"></select>
+    </label>
+    <button type="submit" id="boton">Procesar en GPU</button>
+  </form>
+  <p class="nota">Formatos: PNG, JPEG, PPM/PGM, BMP, TIFF · máximo {{ max_mb }} MB y {{ max_lado }}×{{ max_lado }} píxeles.
+     Media, nitidez y laplaciano son los filtros de la práctica; gaussiano y relieve son adicionales.</p>
+  <div id="mensaje"></div>
+
+  <div class="imagenes">
+    <figure><img id="vista-original" alt="Imagen original"><figcaption><span>Original</span><span id="info-original"></span></figcaption></figure>
+    <figure><img id="vista-resultado" alt="Resultado"><figcaption><span id="info-resultado">Resultado</span>
+      <span id="descargas"></span></figcaption></figure>
+  </div>
+
+  <div id="detalle">
+    <table>
+      <tbody id="tabla"></tbody>
+    </table>
+    <p class="nota" id="nota-solicitud"></p>
+  </div>
+</main>
+
+<script>
+const FILTROS = {{ filtros | tojson }};
+const NOMBRES = { media:"Media", nitidez:"Nitidez", laplaciano:"Laplaciano", gaussiano:"Gaussiano (extra)", relieve:"Relieve (extra)" };
+const $ = id => document.getElementById(id);
+const selFiltro = $("filtro"), selK = $("k");
+
+for (const f of Object.keys(FILTROS)) selFiltro.add(new Option(NOMBRES[f] || f, f));
+function actualizarK() {
+  selK.innerHTML = "";
+  for (const k of FILTROS[selFiltro.value]) selK.add(new Option(`${k}×${k}`, k));
+  selK.disabled = FILTROS[selFiltro.value].length === 1;
+}
+selFiltro.addEventListener("change", actualizarK);
+actualizarK();
+
+fetch("/api/salud").then(r => r.json()).then(s => {
+  $("estado-gpu").textContent = s.estado === "listo"
+    ? `${s.gpu} · ${s.entorno} · ${s.hilos_bloque} hilos/bloque`
+    : `GPU no disponible: ${s.error || s.estado}`;
+}).catch(() => $("estado-gpu").textContent = "no se pudo consultar el estado");
+
+function mensaje(texto, tipo) { const m = $("mensaje"); m.textContent = texto; m.className = tipo || ""; }
+
+let urlOriginal = null, urlResultado = null;
+$("imagen").addEventListener("change", () => {
+  const f = $("imagen").files[0];
+  if (urlOriginal) URL.revokeObjectURL(urlOriginal);
+  urlOriginal = f ? URL.createObjectURL(f) : null;
+  $("vista-original").src = urlOriginal || "";
+  $("info-original").textContent = f ? `${f.name} · ${(f.size / 2**20).toFixed(1)} MB` : "";
+});
+
+const FILAS = [
+  ["Cliente (navegador)", null],
+  ["Total en el cliente: envío + servidor + descarga del PNG", "cliente_total"],
+  ["Servidor", null],
+  ["Recepción del archivo", "recepcion"], ["Decodificación y validación", "decodificacion"],
+  ["Espera en cola", "espera_cola"], ["Procesamiento GPU (motor completo)", "procesamiento_gpu"],
+  ["Preparación de la salida (PNG + .f32)", "salida"], ["Total en el servidor", "servidor_total"],
+  ["Dentro del motor GPU", null],
+  ["Preparación en CPU", "preparacion"], ["Reserva de memoria GPU", "reserva"],
+  ["Copia CPU → GPU", "h2d"], ["Kernel (eventos CUDA)", "kernel"], ["Copia GPU → CPU", "d2h"],
+  ["CPU→GPU + kernel + GPU→CPU", "total_gpu"], ["Liberación de memoria GPU", "liberacion"],
+];
+
+$("formulario").addEventListener("submit", async ev => {
+  ev.preventDefault();
+  const archivo = $("imagen").files[0];
+  if (!archivo) return mensaje("Seleccione una imagen.", "error");
+  $("boton").disabled = true;                       // evita solicitudes duplicadas
+  mensaje("Procesando en la GPU…", "info");
+  const datos = new FormData();
+  datos.append("imagen", archivo);
+  datos.append("filtro", selFiltro.value);
+  datos.append("k", selK.value);
+  const t0 = performance.now();
+  try {
+    const r = await fetch("/api/procesar", { method: "POST", body: datos });
+    const j = await r.json().catch(() => ({ mensaje: `Error HTTP ${r.status}` }));
+    if (!r.ok) throw new Error(`${j.mensaje || "Error"} (HTTP ${r.status}${j.error ? ", " + j.error : ""})`);
+    const png = await fetch(j.archivos.png);         // el resultado completo forma parte del tiempo del cliente
+    if (!png.ok) throw new Error(`No se pudo descargar el resultado (HTTP ${png.status})`);
+    const blob = await png.blob();
+    const tCliente = performance.now() - t0;
+
+    if (urlResultado) URL.revokeObjectURL(urlResultado);
+    urlResultado = URL.createObjectURL(blob);
+    $("vista-resultado").src = urlResultado;
+    if (j.archivos.original) $("vista-original").src = j.archivos.original;
+    $("info-resultado").textContent = `${NOMBRES[j.filtro]} ${j.k}×${j.k} · ${j.ancho}×${j.alto} · ${j.canales === 3 ? "color" : "gris"}`;
+    $("descargas").innerHTML = `<a href="${j.archivos.png}?descargar=1">Descargar PNG</a> · <a href="${j.archivos.f32}?descargar=1">Descargar .f32</a>`;
+
+    const t = { ...j.tiempos, cliente_total: tCliente };
+    $("tabla").innerHTML = FILAS.map(([nombre, clave]) => clave === null
+      ? `<tr class="grupo"><td colspan="2">${nombre}</td></tr>`
+      : `<tr><td>${nombre}</td><td class="num">${t[clave].toFixed(3)} ms</td></tr>`).join("");
+    $("nota-solicitud").textContent = `Solicitud ${j.id} · ${j.gpu} (${j.entorno}) · ${j.hilos_bloque} hilos × ${j.bloques} bloques por canal. ` +
+      `El tiempo del cliente incluye la red y no equivale al tiempo del kernel.`;
+    $("detalle").style.display = "block";
+    mensaje("Listo.", "info");
+  } catch (e) {
+    mensaje(e.message, "error");
+  } finally {
+    $("boton").disabled = false;
+  }
+});
+</script>
+</body>
+</html>
