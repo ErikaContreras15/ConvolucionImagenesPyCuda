@@ -1,17 +1,17 @@
 == 0. Equipo y versiones ==
 ### Fecha (local)
-dom 22 nov 2026 09:19:31 -05
+dom 22 nov 2026 12:32:17 -05
 
 ### CPU
 CPU(s):                                  24
 Model name:                              Intel(R) Core(TM) Ultra 9 275HX
 Thread(s) per core:                      1
 Core(s) per socket:                      24
-CPU(s) scaling MHz:                      55%
+CPU(s) scaling MHz:                      64%
 
 ### RAM
                total        used        free      shared  buff/cache   available
-Mem:            30Gi       5,4Gi        20Gi       818Mi       6,2Gi        25Gi
+Mem:            30Gi       7,1Gi        17Gi       1,1Gi       7,7Gi        23Gi
 
 ### GPU y driver (anfitrión)
 name, memory.total [MiB], driver_version
@@ -32,7 +32,7 @@ NVIDIA Container Toolkit CLI version 1.20.2
  Default Runtime: runc
 
 ### Imagen Docker
-conv-pycuda:p03  id fdf0597ffd53  creada 2026-11-22 09:18:53 -0500 -05  11GB
+conv-pycuda:p03  id b07da28d43be  creada 2026-11-22 11:48:41 -0500 -05  11GB
 Base: nvidia/cuda:13.2.0-devel-ubuntu24.04
 
 ### Dentro del contenedor
@@ -69,7 +69,7 @@ Pillow 13.0.0
 PyCUDA 2026.1
 
 ### Código
-Commit: 822f7b2 (con cambios sin commit)
+Commit: 47f003d (código sin cambios respecto al commit)
 Commit de origen de la P02: 822f7b2
 
 ### Servicio
@@ -77,7 +77,7 @@ gunicorn --workers 1 --threads 8 --timeout 300 --bind 0.0.0.0:5000 app:app (COLA
 Copias CPU<->GPU con memoria PAGINABLE; kernel medido con eventos CUDA; resto con time.perf_counter
 
 == 1a. PyCUDA directo en el ANFITRIÓN (media 9x9, 4000x4000) ==
-Directo (anfitrion) media k=9 4000x4000x3 | NVIDIA GeForce RTX 5080 Laptop GPU | 256 hilos x 62500 bloques x 3 planos | init 179.1 ms | compilación 186.2 ms | kernel 3.572 ms | procesamiento 45.682 ms (mediana, 5 reps)
+Directo (anfitrion) media k=9 4000x4000x3 | NVIDIA GeForce RTX 5080 Laptop GPU | 256 hilos x 62500 bloques x 3 planos | init 190.1 ms | compilación 183.8 ms | kernel 3.644 ms | procesamiento 43.535 ms (mediana, 5 reps)
 
 == 1b. PyCUDA directo DENTRO del contenedor ==
 
@@ -95,46 +95,46 @@ https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
 
 A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
 
-Directo (contenedor) media k=9 4000x4000x3 | NVIDIA GeForce RTX 5080 Laptop GPU | 256 hilos x 62500 bloques x 3 planos | init 181.2 ms | compilación 189.1 ms | kernel 3.434 ms | procesamiento 41.780 ms (mediana, 5 reps)
+Directo (contenedor) media k=9 4000x4000x3 | NVIDIA GeForce RTX 5080 Laptop GPU | 256 hilos x 62500 bloques x 3 planos | init 191.2 ms | compilación 187.3 ms | kernel 3.298 ms | procesamiento 41.669 ms (mediana, 5 reps)
 
 == Iniciando el servicio contenerizado ==
-{"calentamiento_ms":0.7,"cola_esperando":0,"cola_max":4,"compilacion_ms":188.7,"entorno":"contenedor","error":null,"estado":"listo","filtros":{"gaussiano":[5],"laplaciano":[3],"media":[3,9,21],"nitidez":[3],"relieve":[3]},"gpu":"NVIDIA GeForce RTX 5080 Laptop GPU","hilos_bloque":256,"init_ms":199.7,"limites":{"formatos":["BMP","JPEG","PNG","PPM","TIFF"],"max_lado":6000,"max_mb":120},"memoria_gpu_mb":15842,"procesando":false}
+{"calentamiento_ms":0.7,"cola_esperando":0,"cola_max":4,"compilacion_ms":184.0,"entorno":"contenedor","error":null,"estado":"listo","filtros":{"gaussiano":[5],"laplaciano":[3],"media":[3,9,21],"nitidez":[3],"relieve":[3]},"gpu":"NVIDIA GeForce RTX 5080 Laptop GPU","hilos_bloque":256,"init_ms":199.2,"limites":{"formatos":["BMP","JPEG","PNG","PPM","TIFF"],"max_lado":6000,"max_mb":120},"memoria_gpu_mb":15842,"procesando":false}
 
 
 == 1c. Solicitud al SERVICIO contenerizado ==
-Servicio media k=9 4000x4000x3 | kernel 3.286 ms | servidor 911.0 ms | cliente 1601.3 ms (mediana de 5) | fallos 0
+Servicio (nasly-rogstrixg (mismo equipo que el servidor)) media k=9 4000x4000x3 | kernel 3.295 ms | servidor 923.0 ms | cliente 1604.3 ms (mediana de 5) | fallos 0
 
 == 2. Resolución (media 9x9) ==
-Servicio media k=9 2000x2000x3 | kernel 0.848 ms | servidor 210.7 ms | cliente 416.4 ms (mediana de 5) | fallos 0
-Servicio media k=9 4000x4000x3 | kernel 3.293 ms | servidor 905.1 ms | cliente 1588.2 ms (mediana de 5) | fallos 0
-Servicio media k=9 6000x6000x3 | kernel 7.405 ms | servidor 1894.2 ms | cliente 3254.3 ms (mediana de 5) | fallos 0
+Servicio (nasly-rogstrixg (mismo equipo que el servidor)) media k=9 2000x2000x3 | kernel 0.848 ms | servidor 208.9 ms | cliente 411.9 ms (mediana de 5) | fallos 0
+Servicio (nasly-rogstrixg (mismo equipo que el servidor)) media k=9 4000x4000x3 | kernel 3.295 ms | servidor 909.0 ms | cliente 1598.6 ms (mediana de 5) | fallos 0
+Servicio (nasly-rogstrixg (mismo equipo que el servidor)) media k=9 6000x6000x3 | kernel 7.415 ms | servidor 1895.2 ms | cliente 3254.4 ms (mediana de 5) | fallos 0
 
 == 3. Filtros y máscara (4000x4000) ==
-Servicio media k=3 4000x4000x3 | kernel 0.984 ms | servidor 947.7 ms | cliente 1635.1 ms (mediana de 5) | fallos 0
-Servicio media k=9 4000x4000x3 | kernel 3.297 ms | servidor 822.9 ms | cliente 1492.7 ms (mediana de 5) | fallos 0
-Servicio media k=21 4000x4000x3 | kernel 16.913 ms | servidor 876.2 ms | cliente 1552.9 ms (mediana de 5) | fallos 0
-Servicio nitidez k=3 4000x4000x3 | kernel 0.982 ms | servidor 1259.3 ms | cliente 1958.8 ms (mediana de 5) | fallos 0
-Servicio laplaciano k=3 4000x4000x3 | kernel 0.979 ms | servidor 1045.6 ms | cliente 1735.8 ms (mediana de 5) | fallos 0
+Servicio (nasly-rogstrixg (mismo equipo que el servidor)) media k=3 4000x4000x3 | kernel 0.988 ms | servidor 861.5 ms | cliente 1535.9 ms (mediana de 5) | fallos 0
+Servicio (nasly-rogstrixg (mismo equipo que el servidor)) media k=9 4000x4000x3 | kernel 3.307 ms | servidor 828.3 ms | cliente 1491.3 ms (mediana de 5) | fallos 0
+Servicio (nasly-rogstrixg (mismo equipo que el servidor)) media k=21 4000x4000x3 | kernel 16.400 ms | servidor 788.2 ms | cliente 1452.5 ms (mediana de 5) | fallos 0
+Servicio (nasly-rogstrixg (mismo equipo que el servidor)) nitidez k=3 4000x4000x3 | kernel 0.982 ms | servidor 1179.9 ms | cliente 1865.9 ms (mediana de 5) | fallos 0
+Servicio (nasly-rogstrixg (mismo equipo que el servidor)) laplaciano k=3 4000x4000x3 | kernel 0.982 ms | servidor 964.0 ms | cliente 1639.9 ms (mediana de 5) | fallos 0
 
 == 4. Concurrencia (media 9x9, 4000x4000; 5 rondas) ==
-1 cliente(s) ronda 1: latencias [1490] ms | espera en cola [1] ms | exitosas 1/1 | ronda 1494 ms | 0.67 solicitudes/s
-1 cliente(s) ronda 2: latencias [1495] ms | espera en cola [1] ms | exitosas 1/1 | ronda 1498 ms | 0.67 solicitudes/s
-1 cliente(s) ronda 3: latencias [1491] ms | espera en cola [1] ms | exitosas 1/1 | ronda 1494 ms | 0.67 solicitudes/s
-1 cliente(s) ronda 4: latencias [1490] ms | espera en cola [1] ms | exitosas 1/1 | ronda 1494 ms | 0.67 solicitudes/s
-1 cliente(s) ronda 5: latencias [1491] ms | espera en cola [1] ms | exitosas 1/1 | ronda 1493 ms | 0.67 solicitudes/s
+1 cliente(s) ronda 1: latencias [1496] ms | espera en cola [1] ms | exitosas 1/1 | ronda 1499 ms | 0.67 solicitudes/s
+1 cliente(s) ronda 2: latencias [1491] ms | espera en cola [1] ms | exitosas 1/1 | ronda 1494 ms | 0.67 solicitudes/s
+1 cliente(s) ronda 3: latencias [1485] ms | espera en cola [1] ms | exitosas 1/1 | ronda 1488 ms | 0.67 solicitudes/s
+1 cliente(s) ronda 4: latencias [1611] ms | espera en cola [1] ms | exitosas 1/1 | ronda 1614 ms | 0.62 solicitudes/s
+1 cliente(s) ronda 5: latencias [1586] ms | espera en cola [1] ms | exitosas 1/1 | ronda 1588 ms | 0.63 solicitudes/s
 Cliente: nasly-rogstrixg (mismo equipo que el servidor); red: localhost (sin red física). Política: FIFO, 1 solicitud a la vez en la GPU.
-2 cliente(s) ronda 1: latencias [1615, 1733] ms | espera en cola [1, 0] ms | exitosas 2/2 | ronda 1736 ms | 1.15 solicitudes/s
-2 cliente(s) ronda 2: latencias [1611, 1723] ms | espera en cola [1, 0] ms | exitosas 2/2 | ronda 1725 ms | 1.16 solicitudes/s
-2 cliente(s) ronda 3: latencias [1710, 1624] ms | espera en cola [0, 1] ms | exitosas 2/2 | ronda 1727 ms | 1.16 solicitudes/s
-2 cliente(s) ronda 4: latencias [1611, 1725] ms | espera en cola [1, 4] ms | exitosas 2/2 | ronda 1727 ms | 1.16 solicitudes/s
-2 cliente(s) ronda 5: latencias [1630, 1729] ms | espera en cola [1, 0] ms | exitosas 2/2 | ronda 1731 ms | 1.16 solicitudes/s
+2 cliente(s) ronda 1: latencias [1731, 1629] ms | espera en cola [5, 1] ms | exitosas 2/2 | ronda 1747 ms | 1.15 solicitudes/s
+2 cliente(s) ronda 2: latencias [1731, 1631] ms | espera en cola [5, 1] ms | exitosas 2/2 | ronda 1734 ms | 1.15 solicitudes/s
+2 cliente(s) ronda 3: latencias [1613, 1728] ms | espera en cola [1, 4] ms | exitosas 2/2 | ronda 1730 ms | 1.16 solicitudes/s
+2 cliente(s) ronda 4: latencias [1714, 1655] ms | espera en cola [4, 1] ms | exitosas 2/2 | ronda 1732 ms | 1.16 solicitudes/s
+2 cliente(s) ronda 5: latencias [1641, 1736] ms | espera en cola [1, 3] ms | exitosas 2/2 | ronda 1738 ms | 1.15 solicitudes/s
 Cliente: nasly-rogstrixg (mismo equipo que el servidor); red: localhost (sin red física). Política: FIFO, 1 solicitud a la vez en la GPU.
 
 == Registro del contenedor (evidencia) ==
-[14:21:32] 200 ed83769f03374b35954403693933a9a4 media k=9 4000x4000x3 kernel 3.305 ms servidor 1019.2 ms cola 0.1 ms
-[14:21:33] 200 382ec4f931264d60b4b8ad82bd00c090 media k=9 4000x4000x3 kernel 3.307 ms servidor 925.2 ms cola 0.7 ms
-[14:21:33] 200 2e3348fb6334424c955fc26fb2f0736e media k=9 4000x4000x3 kernel 3.301 ms servidor 1030.1 ms cola 3.6 ms
-[14:21:35] 200 e578ae149b824dec91a022f2d5e5a55d media k=9 4000x4000x3 kernel 3.307 ms servidor 926.5 ms cola 0.6 ms
-[14:21:35] 200 2784fd99eddb49d496105e1a2d5d33eb media k=9 4000x4000x3 kernel 3.297 ms servidor 1023.0 ms cola 0.1 ms
+[17:34:15] 200 cfac9db04e9f412ba705af42a4298f33 media k=9 4000x4000x3 kernel 3.305 ms servidor 1018.4 ms cola 4.1 ms
+[17:34:16] 200 9b85f52e9c3b4270ae5beffee80d22a3 media k=9 4000x4000x3 kernel 3.320 ms servidor 941.0 ms cola 0.6 ms
+[17:34:17] 200 648faed3c98044ae84e654557ad6ce22 media k=9 4000x4000x3 kernel 3.315 ms servidor 1018.3 ms cola 4.4 ms
+[17:34:18] 200 f48002f91b624b358f79a05956345975 media k=9 4000x4000x3 kernel 3.297 ms servidor 941.0 ms cola 0.8 ms
+[17:34:18] 200 663a6628f52b4252b4be39fa4d96aa92 media k=9 4000x4000x3 kernel 3.309 ms servidor 1019.9 ms cola 2.6 ms
 
-Listo: [09:21:36] CSV en resultados/ (exp1..exp4), equipo_p03.txt y log_contenedor.txt
+Listo: [12:34:19] CSV en resultados/ (exp1..exp4), equipo_p03.txt y log_contenedor.txt

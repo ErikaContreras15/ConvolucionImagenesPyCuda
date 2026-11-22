@@ -1,16 +1,16 @@
 ### Fecha (local)
-dom 22 nov 2026 09:19:31 -05
+dom 22 nov 2026 12:32:17 -05
 
 ### CPU
 CPU(s):                                  24
 Model name:                              Intel(R) Core(TM) Ultra 9 275HX
 Thread(s) per core:                      1
 Core(s) per socket:                      24
-CPU(s) scaling MHz:                      55%
+CPU(s) scaling MHz:                      64%
 
 ### RAM
                total        used        free      shared  buff/cache   available
-Mem:            30Gi       5,4Gi        20Gi       818Mi       6,2Gi        25Gi
+Mem:            30Gi       7,1Gi        17Gi       1,1Gi       7,7Gi        23Gi
 
 ### GPU y driver (anfitrión)
 name, memory.total [MiB], driver_version
@@ -31,7 +31,7 @@ NVIDIA Container Toolkit CLI version 1.20.2
  Default Runtime: runc
 
 ### Imagen Docker
-conv-pycuda:p03  id fdf0597ffd53  creada 2026-11-22 09:18:53 -0500 -05  11GB
+conv-pycuda:p03  id b07da28d43be  creada 2026-11-22 11:48:41 -0500 -05  11GB
 Base: nvidia/cuda:13.2.0-devel-ubuntu24.04
 
 ### Dentro del contenedor
@@ -68,7 +68,7 @@ Pillow 13.0.0
 PyCUDA 2026.1
 
 ### Código
-Commit: 822f7b2 (con cambios sin commit)
+Commit: 47f003d (código sin cambios respecto al commit)
 Commit de origen de la P02: 822f7b2
 
 ### Servicio
