@@ -1,0 +1,60 @@
+Servicio http://localhost:5000 | 2026-11-22 08:48:06 | estado listo | NVIDIA GeForce RTX 5080 Laptop GPU | entorno contenedor | límites {'formatos': ['BMP', 'JPEG', 'PNG', 'PPM', 'TIFF'], 'max_lado': 6000, 'max_mb': 120}
+== 1. Matriz pequeña y límites ==
+Prueba manual 5x5 (directo.py --test, 4 hilos/bloque, 3 hilos sobrantes): 12/12 OK
+1003x997 media 9x9 | 999991 píxeles/canal | 256 hilos x 3907 bloques = 201 hilos sobrantes por canal | servicio vs directo: error máx 0.000e+00, medio 0.000e+00, > tol 0 -> OK
+   borde superior izq. (canal R) servicio=59.222 directo=59.222 | esquina inf. der. servicio=30.272 directo=30.272
+
+== 2. Equivalencia directo–servicio (4000x4000 color, antes del recorte) ==
+media      k=3  | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK | kernel 0.984 ms | id 49693a25a5614b09a1c9a16786488c49
+media      k=9  | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK | kernel 3.291 ms | id d0c34255cdcc4accbb068bedc7ef36a7
+media      k=21 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK | kernel 16.302 ms | id 67c2071b5d18473084b52a770b51bd27
+nitidez    k=3  | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK | kernel 0.977 ms | id e1bcaefc14bc4991a69fed3e4df591a3
+laplaciano k=3  | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK | kernel 0.980 ms | id 3c5fa21f7aba4eecb4650fd16a3c7a96
+
+== 3. Resultado visual (2000x2000, mismo recorte de región) ==
+media      k=9  -> evidencia/media9_2000.png y evidencia/recorte_media9.png
+nitidez    k=3  -> evidencia/nitidez3_2000.png y evidencia/recorte_nitidez3.png
+laplaciano k=3  -> evidencia/laplaciano3_2000.png y evidencia/recorte_laplaciano3.png
+gaussiano  k=5  -> evidencia/gaussiano5_2000.png y evidencia/recorte_gaussiano5.png
+relieve    k=3  -> evidencia/relieve3_2000.png y evidencia/recorte_relieve3.png
+Región del recorte (x0, y0, x1, y1): (700, 500, 1100, 900)
+
+== 4. Entradas inválidas y recuperación ==
+Archivo no válido (texto con extensión .png)         -> HTTP 400 imagen_invalida: El archivo no es una imagen válida (UnidentifiedImageError).
+Archivo que supera el límite (125 MB)                -> HTTP 413 archivo_muy_grande: El archivo supera el límite de 120 MB.
+Dimensiones que superan el límite (6001x8)           -> HTTP 413 dimensiones_excedidas: La imagen mide 6001x8; el máximo es 6000x6000.
+Formato no permitido (GIF)                           -> HTTP 415 formato_no_permitido: Formato GIF no permitido. Use: BMP, JPEG, PNG, PPM, TIFF.
+Falta la imagen                                      -> HTTP 400 falta_imagen: Debe enviar un archivo en el campo 'imagen'.
+Filtro desconocido ('sobel')                         -> HTTP 400 parametro_invalido: Filtro desconocido: 'sobel'. Permitidos: media, nitidez, laplaciano, gaussiano, relieve
+Tamaño de máscara no permitido (media 5x5)           -> HTTP 400 parametro_invalido: Tamaño de máscara 5 no permitido para 'media'. Permitidos: (3, 9, 21)
+Máscara no permitida para el filtro (nitidez 9x9)    -> HTTP 400 parametro_invalido: Tamaño de máscara 9 no permitido para 'nitidez'. Permitidos: (3,)
+k no numérico ('abc')                                -> HTTP 400 parametro_invalido: El tamaño de máscara 'k' debe ser un número entero.
+Recuperación: /api/salud -> HTTP 200 (listo); solicitud válida posterior -> HTTP 200 -> OK
+
+== 5a. Aislamiento: 2 solicitudes simultáneas identificables ==
+Solicitud 'constante_200' id c1a16c57b85b46b49f4a8ab9f4ccd16b | píxel central 200.0000 (esperado 200) | espera en cola 0.1 ms | OK
+Solicitud 'constante_50' id 7c01a71041ec45d0ab64ccf0066273bf | píxel central 50.0000 (esperado 50) | espera en cola 10.0 ms | OK
+Identificadores distintos: OK
+
+== 5b. Cola: 10 solicitudes simultáneas (4000x4000, media 21x21) ==
+Configuración: cola_max = 4 en espera + 1 en proceso; atención FIFO de una en una
+  solicitud 0: HTTP 200 | cliente 1927 ms | espera en cola 0.9 ms
+  solicitud 1: HTTP 200 | cliente 2005 ms | espera en cola 0.0 ms
+  solicitud 2: HTTP 200 | cliente 2218 ms | espera en cola 0.0 ms
+  solicitud 3: HTTP 200 | cliente 2328 ms | espera en cola 116.1 ms
+  solicitud 4: HTTP 200 | cliente 2190 ms | espera en cola 43.2 ms
+  solicitud 5: HTTP 200 | cliente 2469 ms | espera en cola 277.5 ms
+  solicitud 6: HTTP 200 | cliente 2310 ms | espera en cola 179.6 ms
+  solicitud 7: HTTP 200 | cliente 2330 ms | espera en cola 215.7 ms
+  solicitud 8: HTTP 200 | cliente 3352 ms | espera en cola 0.1 ms
+  solicitud 9: HTTP 200 | cliente 3423 ms | espera en cola 0.0 ms
+Atendidas 10 | rechazadas por cola llena 0 | otras 0
+Estado posterior: HTTP 200, cola en espera 0 -> OK
+
+== Resumen ==
+1. Matriz pequeña y límites          OK
+2. Equivalencia directo–servicio     OK
+3. Resultado visual                  OK
+4. Entradas inválidas                OK
+5a. Aislamiento                      OK
+5b. Cola                             OK

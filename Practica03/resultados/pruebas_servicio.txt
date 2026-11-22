@@ -1,0 +1,60 @@
+Servicio http://localhost:5000 | 2026-11-22 08:55:50 | estado listo | NVIDIA GeForce RTX 5080 Laptop GPU | entorno contenedor | límites {'formatos': ['BMP', 'JPEG', 'PNG', 'PPM', 'TIFF'], 'max_lado': 6000, 'max_mb': 120}
+== 1. Matriz pequeña y límites ==
+Prueba manual 5x5 (directo.py --test, 4 hilos/bloque, 3 hilos sobrantes): 12/12 OK
+1003x997 media 9x9 | 999991 píxeles/canal | 256 hilos x 3907 bloques = 201 hilos sobrantes por canal | servicio vs directo: error máx 0.000e+00, medio 0.000e+00, > tol 0 -> OK
+   borde superior izq. (canal R) servicio=59.222 directo=59.222 | esquina inf. der. servicio=30.272 directo=30.272
+
+== 2. Equivalencia directo–servicio (4000x4000 color, antes del recorte) ==
+media      k=3  | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK | kernel 0.985 ms | id 7658bad8edba4f708aa608c531aa0a7f
+media      k=9  | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK | kernel 3.279 ms | id b49adc9b6e1f4a1bac2924d5b4fc0010
+media      k=21 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK | kernel 16.282 ms | id 26c1f8fd1963403b8aba177e29d7aa55
+nitidez    k=3  | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK | kernel 0.978 ms | id 7e457344e32f44a6aa9df4d463a280ae
+laplaciano k=3  | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK | kernel 0.981 ms | id 14cd003e6e8842d290640e4861962846
+
+== 3. Resultado visual (2000x2000, mismo recorte de región) ==
+media      k=9  -> evidencia/media9_2000.png y evidencia/recorte_media9.png
+nitidez    k=3  -> evidencia/nitidez3_2000.png y evidencia/recorte_nitidez3.png
+laplaciano k=3  -> evidencia/laplaciano3_2000.png y evidencia/recorte_laplaciano3.png
+gaussiano  k=5  -> evidencia/gaussiano5_2000.png y evidencia/recorte_gaussiano5.png
+relieve    k=3  -> evidencia/relieve3_2000.png y evidencia/recorte_relieve3.png
+Región del recorte (x0, y0, x1, y1): (700, 500, 1100, 900)
+
+== 4. Entradas inválidas y recuperación ==
+Archivo no válido (texto con extensión .png)         -> HTTP 400 imagen_invalida: El archivo no es una imagen válida (UnidentifiedImageError).
+Archivo que supera el límite (125 MB)                -> HTTP 413 archivo_muy_grande: El archivo supera el límite de 120 MB.
+Dimensiones que superan el límite (6001x8)           -> HTTP 413 dimensiones_excedidas: La imagen mide 6001x8; el máximo es 6000x6000.
+Formato no permitido (GIF)                           -> HTTP 415 formato_no_permitido: Formato GIF no permitido. Use: BMP, JPEG, PNG, PPM, TIFF.
+Falta la imagen                                      -> HTTP 400 falta_imagen: Debe enviar un archivo en el campo 'imagen'.
+Filtro desconocido ('sobel')                         -> HTTP 400 parametro_invalido: Filtro desconocido: 'sobel'. Permitidos: media, nitidez, laplaciano, gaussiano, relieve
+Tamaño de máscara no permitido (media 5x5)           -> HTTP 400 parametro_invalido: Tamaño de máscara 5 no permitido para 'media'. Permitidos: (3, 9, 21)
+Máscara no permitida para el filtro (nitidez 9x9)    -> HTTP 400 parametro_invalido: Tamaño de máscara 9 no permitido para 'nitidez'. Permitidos: (3,)
+k no numérico ('abc')                                -> HTTP 400 parametro_invalido: El tamaño de máscara 'k' debe ser un número entero.
+Recuperación: /api/salud -> HTTP 200 (listo); solicitud válida posterior -> HTTP 200 -> OK
+
+== 5a. Aislamiento: 2 solicitudes simultáneas identificables ==
+Solicitud 'constante_50' id c79acae7f6d84b299aca1bad2d7c7ef5 | píxel central 50.0000 (esperado 50) | espera en cola 0.2 ms | OK
+Solicitud 'constante_200' id b3ac5af3685c4eadaa43fbb58d8cd36a | píxel central 200.0000 (esperado 200) | espera en cola 3.4 ms | OK
+Identificadores distintos: OK
+
+== 5b. Cola: 10 solicitudes simultáneas (4000x4000, media 21x21) ==
+Configuración: cola_max = 1 en espera + 1 en proceso; atención FIFO de una en una
+  solicitud 0: HTTP 200 | cliente 2010 ms | espera en cola 0.3 ms
+  solicitud 1: HTTP 200 | cliente 2183 ms | espera en cola 30.8 ms
+  solicitud 2: HTTP 503 | cliente 626 ms | cola_llena: El servicio está ocupado (1 solicitudes en espera). Intente de nuevo en unos segundos.
+  solicitud 3: HTTP 503 | cliente 596 ms | cola_llena: El servicio está ocupado (1 solicitudes en espera). Intente de nuevo en unos segundos.
+  solicitud 4: HTTP 503 | cliente 553 ms | cola_llena: El servicio está ocupado (1 solicitudes en espera). Intente de nuevo en unos segundos.
+  solicitud 5: HTTP 200 | cliente 2164 ms | espera en cola 0.1 ms
+  solicitud 6: HTTP 200 | cliente 2216 ms | espera en cola 74.9 ms
+  solicitud 7: HTTP 503 | cliente 523 ms | cola_llena: El servicio está ocupado (1 solicitudes en espera). Intente de nuevo en unos segundos.
+  solicitud 8: HTTP 200 | cliente 2330 ms | espera en cola 0.0 ms
+  solicitud 9: HTTP 200 | cliente 2359 ms | espera en cola 58.6 ms
+Atendidas 6 | rechazadas por cola llena 4 | otras 0
+Estado posterior: HTTP 200, cola en espera 0 -> OK
+
+== Resumen ==
+1. Matriz pequeña y límites          OK
+2. Equivalencia directo–servicio     OK
+3. Resultado visual                  OK
+4. Entradas inválidas                OK
+5a. Aislamiento                      OK
+5b. Cola                             OK

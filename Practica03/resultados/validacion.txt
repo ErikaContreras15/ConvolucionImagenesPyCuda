@@ -1,0 +1,16 @@
+P03 directo vs P02 | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Color vs P02 | media k=3 4000x4000 canal R | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Color vs P02 | media k=3 4000x4000 canal G | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Color vs P02 | media k=3 4000x4000 canal B | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Color vs P02 | media k=9 4000x4000 canal R | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Color vs P02 | media k=9 4000x4000 canal G | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Color vs P02 | media k=9 4000x4000 canal B | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Color vs P02 | media k=21 4000x4000 canal R | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Color vs P02 | media k=21 4000x4000 canal G | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Color vs P02 | media k=21 4000x4000 canal B | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Color vs P02 | nitidez k=3 4000x4000 canal R | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Color vs P02 | nitidez k=3 4000x4000 canal G | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Color vs P02 | nitidez k=3 4000x4000 canal B | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Color vs P02 | laplaciano k=3 4000x4000 canal R | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Color vs P02 | laplaciano k=3 4000x4000 canal G | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK
+Color vs P02 | laplaciano k=3 4000x4000 canal B | píxeles 16000000 | error máx 0.000e+00 | error medio 0.000e+00 | > tol 0 | OK

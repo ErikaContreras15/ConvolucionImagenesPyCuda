@@ -1,0 +1,92 @@
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 13.2.0
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+[2026-11-22 14:19:42 +0000] [1] [INFO] Starting gunicorn 27.0.1
+[2026-11-22 14:19:42 +0000] [1] [INFO] Listening at: http://0.0.0.0:5000 (1)
+[2026-11-22 14:19:42 +0000] [1] [INFO] Using worker: gthread
+[2026-11-22 14:19:42 +0000] [78] [INFO] Booting worker with pid: 78
+[2026-11-22 14:19:42 +0000] [1] [INFO] Control socket listening at /root/.gunicorn/gunicorn.ctl
+[14:19:42] GPU lista: {'gpu': 'NVIDIA GeForce RTX 5080 Laptop GPU', 'memoria_gpu_mb': 15842, 'hilos_bloque': 256, 'init_ms': 199.7, 'compilacion_ms': 188.7, 'calentamiento_ms': 0.7}
+[14:19:45] 200 2aaed27b8f714cb09853767d20ccacdf media k=9 4000x4000x3 kernel 3.287 ms servidor 939.0 ms cola 0.2 ms
+[14:19:46] 200 a929b8f9db0849c289c6a0fa230d237b media k=9 4000x4000x3 kernel 3.298 ms servidor 930.5 ms cola 0.7 ms
+[14:19:48] 200 7ec863388ac44eceb1cee511c55e0952 media k=9 4000x4000x3 kernel 3.277 ms servidor 905.7 ms cola 0.6 ms
+[14:19:49] 200 254dcaf1b2a14a70acfdf2690faf2d75 media k=9 4000x4000x3 kernel 3.286 ms servidor 911.9 ms cola 0.6 ms
+[14:19:51] 200 efe3d4aaaba44e28a13e6c635758d486 media k=9 4000x4000x3 kernel 3.285 ms servidor 907.9 ms cola 0.6 ms
+[14:19:53] 200 e8b03b4189fc4fa995e9daffd7444376 media k=9 4000x4000x3 kernel 3.301 ms servidor 911.0 ms cola 0.7 ms
+[14:19:53] 200 ce721885d1b245978e1829d3c3c38207 media k=9 2000x2000x3 kernel 0.850 ms servidor 210.9 ms cola 1.0 ms
+[14:19:54] 200 2921946510294019ba887cb8984f08d0 media k=9 2000x2000x3 kernel 0.850 ms servidor 213.3 ms cola 0.4 ms
+[14:19:54] 200 b92715450df4478a91e39f6df97a2ccc media k=9 2000x2000x3 kernel 0.844 ms servidor 210.2 ms cola 0.4 ms
+[14:19:54] 200 3c917a4e8b584481a91209805783b97f media k=9 2000x2000x3 kernel 0.848 ms servidor 210.4 ms cola 0.4 ms
+[14:19:55] 200 c040abb1efea47bcbb87c094d5a4346a media k=9 2000x2000x3 kernel 0.846 ms servidor 211.0 ms cola 0.5 ms
+[14:19:55] 200 e198c63d4cc54767890a1749395bb47b media k=9 2000x2000x3 kernel 0.850 ms servidor 210.7 ms cola 0.4 ms
+[14:19:57] 200 bf66e431883e496cbdd696e27f6388cf media k=9 4000x4000x3 kernel 3.303 ms servidor 918.0 ms cola 0.5 ms
+[14:19:59] 200 861f1ac61ba5435781943c6b1c4ae3cc media k=9 4000x4000x3 kernel 3.293 ms servidor 905.0 ms cola 0.7 ms
+[14:20:00] 200 daaf5f5efabb46debbce87466cf7cbf0 media k=9 4000x4000x3 kernel 3.311 ms servidor 906.7 ms cola 0.6 ms
+[14:20:02] 200 3466c2c7ecba41d78d08f599b782bde4 media k=9 4000x4000x3 kernel 3.297 ms servidor 905.1 ms cola 0.7 ms
+[14:20:03] 200 fa85b17949c8442d8f70abd808b90e0c media k=9 4000x4000x3 kernel 3.274 ms servidor 902.8 ms cola 0.6 ms
+[14:20:05] 200 8bc5f9c172154a8bbea47b61bd9561a2 media k=9 4000x4000x3 kernel 3.290 ms servidor 905.3 ms cola 0.7 ms
+[14:20:08] 200 08e5bec269194ab981dd03adf2aec8ec media k=9 6000x6000x3 kernel 7.399 ms servidor 2011.7 ms cola 0.6 ms
+[14:20:12] 200 574f608650b9414abd0311c68f25b687 media k=9 6000x6000x3 kernel 7.408 ms servidor 1933.6 ms cola 1.0 ms
+[14:20:15] 200 4c898fe2117f436caed4683c06ab52f9 media k=9 6000x6000x3 kernel 7.405 ms servidor 1905.5 ms cola 1.1 ms
+[14:20:18] 200 75f77ef975ed4abc82d5f897efdd2c13 media k=9 6000x6000x3 kernel 7.364 ms servidor 1891.5 ms cola 1.2 ms
+[14:20:22] 200 6701098e31ef4bb79922f469dfb5001d media k=9 6000x6000x3 kernel 7.378 ms servidor 1893.5 ms cola 1.2 ms
+[14:20:25] 200 300d0c2214834005b61fc9cedadd2604 media k=9 6000x6000x3 kernel 7.434 ms servidor 1894.2 ms cola 1.0 ms
+[14:20:27] 200 4808b1e6c4e5400e99d266b9aff618cd media k=3 4000x4000x3 kernel 0.984 ms servidor 950.8 ms cola 1.1 ms
+[14:20:28] 200 ca56a67405104d29ba2c23ab2ec2063c media k=3 4000x4000x3 kernel 0.986 ms servidor 947.7 ms cola 0.6 ms
+[14:20:30] 200 d683410f24ca46e98ccae050b01c63ac media k=3 4000x4000x3 kernel 0.984 ms servidor 947.7 ms cola 0.7 ms
+[14:20:31] 200 9f2d5cdd3c254a75b216d877c325a4e3 media k=3 4000x4000x3 kernel 0.981 ms servidor 946.9 ms cola 0.6 ms
+[14:20:33] 200 24073424fd7649f0a996d46c454e07c3 media k=3 4000x4000x3 kernel 0.981 ms servidor 946.8 ms cola 0.7 ms
+[14:20:35] 200 faec0afd09104a45b458e17554ca7381 media k=3 4000x4000x3 kernel 0.986 ms servidor 955.2 ms cola 0.8 ms
+[14:20:36] 200 056daa31971c4c9ebe93cb607a4b296c media k=9 4000x4000x3 kernel 3.297 ms servidor 829.3 ms cola 0.8 ms
+[14:20:38] 200 19510e1e61514973b46fe1c00f830ebe media k=9 4000x4000x3 kernel 3.276 ms servidor 820.9 ms cola 0.7 ms
+[14:20:39] 200 ff8eaf2fc1a14b4c86b17755dfb4a058 media k=9 4000x4000x3 kernel 3.315 ms servidor 824.5 ms cola 0.6 ms
+[14:20:41] 200 89aa79b33df24ebba62c471f381c2128 media k=9 4000x4000x3 kernel 3.291 ms servidor 822.0 ms cola 0.7 ms
+[14:20:42] 200 dbd9d76ac8cf4256ad6f69bfb9f4fd40 media k=9 4000x4000x3 kernel 3.309 ms servidor 822.9 ms cola 0.7 ms
+[14:20:44] 200 9eac38980da946ab8bb7979f0c7eab26 media k=9 4000x4000x3 kernel 3.297 ms servidor 824.0 ms cola 0.6 ms
+[14:20:45] 200 75417668835a4e7f883f34d498ad2200 media k=21 4000x4000x3 kernel 16.390 ms servidor 880.9 ms cola 0.7 ms
+[14:20:47] 200 d7e3c41e45ce408691d94ca965fb7dcf media k=21 4000x4000x3 kernel 16.971 ms servidor 873.7 ms cola 0.7 ms
+[14:20:49] 200 5f5a4edc05a148088981e02522a86b7a media k=21 4000x4000x3 kernel 17.030 ms servidor 876.2 ms cola 0.7 ms
+[14:20:50] 200 227a65aff151494b896bd4d0e02cd590 media k=21 4000x4000x3 kernel 16.356 ms servidor 880.2 ms cola 0.7 ms
+[14:20:52] 200 089f853b644a4f7da502f351137b77ea media k=21 4000x4000x3 kernel 16.367 ms servidor 876.4 ms cola 0.6 ms
+[14:20:53] 200 351019bdaa714fb1818dfc1e9c7defd1 media k=21 4000x4000x3 kernel 16.913 ms servidor 875.7 ms cola 0.7 ms
+[14:20:55] 200 d10ba63c50594482a64db0d3b55aeee6 nitidez k=3 4000x4000x3 kernel 0.983 ms servidor 1268.6 ms cola 0.7 ms
+[14:20:57] 200 59b890bab3a14d5c81dc2b58e0a913c1 nitidez k=3 4000x4000x3 kernel 0.982 ms servidor 1265.5 ms cola 0.6 ms
+[14:20:59] 200 998052f6dc1a484a904c85b39e510230 nitidez k=3 4000x4000x3 kernel 0.979 ms servidor 1259.3 ms cola 0.7 ms
+[14:21:01] 200 1af82d6b6f5a43c2a06d6421eebe5f17 nitidez k=3 4000x4000x3 kernel 0.982 ms servidor 1252.9 ms cola 0.5 ms
+[14:21:03] 200 2596c4a8567a4255b8f7b51ccbe75ab5 nitidez k=3 4000x4000x3 kernel 0.982 ms servidor 1254.9 ms cola 0.7 ms
+[14:21:05] 200 7299e840ae4b467883599d0ed6a39aa8 nitidez k=3 4000x4000x3 kernel 0.980 ms servidor 1262.9 ms cola 0.7 ms
+[14:21:07] 200 4bbec7160e8b497fa073be732cbaa1ab laplaciano k=3 4000x4000x3 kernel 0.979 ms servidor 1045.0 ms cola 1.5 ms
+[14:21:09] 200 cb21be9e5b294eb4a89caf75f4f92956 laplaciano k=3 4000x4000x3 kernel 0.977 ms servidor 1045.6 ms cola 0.8 ms
+[14:21:10] 200 18a9950625f14df693621b3f24388139 laplaciano k=3 4000x4000x3 kernel 0.979 ms servidor 1043.1 ms cola 0.9 ms
+[14:21:12] 200 cf2445b1138e49a7ba5e7424ed3bb902 laplaciano k=3 4000x4000x3 kernel 0.983 ms servidor 1049.7 ms cola 0.7 ms
+[14:21:14] 200 1ca7290fbe704d53b5571d3fbd7faa49 laplaciano k=3 4000x4000x3 kernel 0.977 ms servidor 1047.5 ms cola 0.7 ms
+[14:21:16] 200 ae34cbc27a734add8d34834da2e76dbf laplaciano k=3 4000x4000x3 kernel 0.981 ms servidor 1045.1 ms cola 0.7 ms
+[14:21:17] 200 4644c475af9048c58e59dd05f364cb9b media k=9 4000x4000x3 kernel 3.293 ms servidor 824.7 ms cola 0.8 ms
+[14:21:19] 200 333181cc90d14856b1fa9789a22e9484 media k=9 4000x4000x3 kernel 3.293 ms servidor 821.7 ms cola 0.8 ms
+[14:21:20] 200 95d75624db8949559613fb634abad2ee media k=9 4000x4000x3 kernel 3.305 ms servidor 827.7 ms cola 0.6 ms
+[14:21:22] 200 1d9f98bd3796491ba3d4785f047e7229 media k=9 4000x4000x3 kernel 3.311 ms servidor 823.1 ms cola 0.7 ms
+[14:21:23] 200 2e9f82a6fa314a0ea5475349e601912c media k=9 4000x4000x3 kernel 3.297 ms servidor 822.7 ms cola 0.7 ms
+[14:21:25] 200 c14a43c494f04d57a7d652e8431d9d1d media k=9 4000x4000x3 kernel 3.281 ms servidor 823.2 ms cola 0.6 ms
+[14:21:26] 200 e89341d67ebd4b388c70a5fe431b1d66 media k=9 4000x4000x3 kernel 3.326 ms servidor 908.4 ms cola 0.8 ms
+[14:21:28] 200 069dcdcf7cba4fd0bbe37fac58ce910e media k=9 4000x4000x3 kernel 3.313 ms servidor 928.1 ms cola 0.7 ms
+[14:21:28] 200 91c579070de34f95b2c9ddb1eaf23631 media k=9 4000x4000x3 kernel 3.320 ms servidor 1028.2 ms cola 0.1 ms
+[14:21:30] 200 5917a54d29544b6182cfbfb4babd103b media k=9 4000x4000x3 kernel 3.297 ms servidor 925.2 ms cola 0.6 ms
+[14:21:30] 200 ab373f2fec564f3fa427f09929cbf58a media k=9 4000x4000x3 kernel 3.303 ms servidor 1016.5 ms cola 0.1 ms
+[14:21:31] 200 59f62e2d2f4145cdbd0c806d91176824 media k=9 4000x4000x3 kernel 3.304 ms servidor 921.2 ms cola 0.7 ms
+[14:21:32] 200 ed83769f03374b35954403693933a9a4 media k=9 4000x4000x3 kernel 3.305 ms servidor 1019.2 ms cola 0.1 ms
+[14:21:33] 200 382ec4f931264d60b4b8ad82bd00c090 media k=9 4000x4000x3 kernel 3.307 ms servidor 925.2 ms cola 0.7 ms
+[14:21:33] 200 2e3348fb6334424c955fc26fb2f0736e media k=9 4000x4000x3 kernel 3.301 ms servidor 1030.1 ms cola 3.6 ms
+[14:21:35] 200 e578ae149b824dec91a022f2d5e5a55d media k=9 4000x4000x3 kernel 3.307 ms servidor 926.5 ms cola 0.6 ms
+[14:21:35] 200 2784fd99eddb49d496105e1a2d5d33eb media k=9 4000x4000x3 kernel 3.297 ms servidor 1023.0 ms cola 0.1 ms

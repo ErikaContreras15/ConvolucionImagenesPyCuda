@@ -1,0 +1,11 @@
+id_solicitud,modo,entorno,filtro,ancho,alto,canales,k,hilos_bloque,bloques,repeticion,concurrencia,fase,tiempo,unidad,estado
+arranque,directo,anfitrion,media,1003,997,3,9,256,,0,1,init,139.5090,ms,completada
+arranque,directo,anfitrion,media,1003,997,3,9,256,,0,1,compilacion,181.9338,ms,completada
+e054fd6c3915,directo,anfitrion,media,1003,997,3,9,256,3907,1,1,preparacion,0.0151,ms,completada
+e054fd6c3915,directo,anfitrion,media,1003,997,3,9,256,3907,1,1,reserva,0.1176,ms,completada
+e054fd6c3915,directo,anfitrion,media,1003,997,3,9,256,3907,1,1,h2d,0.7286,ms,completada
+e054fd6c3915,directo,anfitrion,media,1003,997,3,9,256,3907,1,1,kernel,0.2277,ms,completada
+e054fd6c3915,directo,anfitrion,media,1003,997,3,9,256,3907,1,1,d2h,0.7286,ms,completada
+e054fd6c3915,directo,anfitrion,media,1003,997,3,9,256,3907,1,1,total_gpu,1.6849,ms,completada
+e054fd6c3915,directo,anfitrion,media,1003,997,3,9,256,3907,1,1,liberacion,0.1278,ms,completada
+e054fd6c3915,directo,anfitrion,media,1003,997,3,9,256,3907,1,1,procesamiento,1.9610,ms,completada

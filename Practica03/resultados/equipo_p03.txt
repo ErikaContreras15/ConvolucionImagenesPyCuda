@@ -1,0 +1,76 @@
+### Fecha (local)
+dom 22 nov 2026 09:19:31 -05
+
+### CPU
+CPU(s):                                  24
+Model name:                              Intel(R) Core(TM) Ultra 9 275HX
+Thread(s) per core:                      1
+Core(s) per socket:                      24
+CPU(s) scaling MHz:                      55%
+
+### RAM
+               total        used        free      shared  buff/cache   available
+Mem:            30Gi       5,4Gi        20Gi       818Mi       6,2Gi        25Gi
+
+### GPU y driver (anfitrión)
+name, memory.total [MiB], driver_version
+NVIDIA GeForce RTX 5080 Laptop GPU, 16303 MiB, 595.99.02
+
+### Sistema
+Description:	Ubuntu 24.04.4 LTS
+7.0.0-43-generic
+
+### Docker
+Docker version 29.10.0, build fdd4b8e
+
+### NVIDIA Container Toolkit
+NVIDIA Container Toolkit CLI version 1.20.2
+
+### Runtime GPU en Docker
+ Runtimes: io.containerd.runc.v2 nvidia runc
+ Default Runtime: runc
+
+### Imagen Docker
+conv-pycuda:p03  id fdf0597ffd53  creada 2026-11-22 09:18:53 -0500 -05  11GB
+Base: nvidia/cuda:13.2.0-devel-ubuntu24.04
+
+### Dentro del contenedor
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 13.2.0
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+Cuda compilation tools, release 13.2, V13.2.51
+Build cuda_13.2.r13.2/compiler.37434383_0
+Python 3.12.3
+NumPy 2.5.4
+Pillow 13.0.0
+PyCUDA 2026.1
+Flask 3.1.3
+gunicorn 27.0.1
+
+### Anfitrión (venv ~/venvs/cuda)
+Cuda compilation tools, release 13.2, V13.2.86
+Build cuda_13.2.r13.2/compiler.37953736_0
+Python 3.12.3
+NumPy 2.5.4
+Pillow 13.0.0
+PyCUDA 2026.1
+
+### Código
+Commit: 822f7b2 (con cambios sin commit)
+Commit de origen de la P02: 822f7b2
+
+### Servicio
+gunicorn --workers 1 --threads 8 --timeout 300 --bind 0.0.0.0:5000 app:app (COLA_MAX=4)
+Copias CPU<->GPU con memoria PAGINABLE; kernel medido con eventos CUDA; resto con time.perf_counter
