@@ -1,0 +1,15 @@
+# .dockerignore — va en la RAÍZ del repositorio (junto a Practica02 y Practica03).
+# Lista blanca: se ignora todo y solo se envía a Docker lo que el servicio necesita.
+# Imágenes de prueba, salidas, CSV, la P01 y el entorno virtual quedan fuera.
+*
+
+!Practica02/comun.py
+!Practica02/comparar.py
+!Practica02/PyCuda/conv_pycuda.py
+!Practica02/PyCuda/kernel_convolucion.cu
+
+!Practica03/requirements.txt
+!Practica03/*.py
+!Practica03/templates/
+
+**/__pycache__
